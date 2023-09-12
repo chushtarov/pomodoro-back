@@ -4,8 +4,9 @@ module.exports.todosController = {
   postTodos: async (req, res) => {
     const { category, text, completed, count } = req.body;
     try {
-      const todo = await Todos.create({ category, text });
-      res.json(todo);
+      const todo = await Todos.create({ category, text })
+      const data = await Todos.find().populate('category')
+      res.json(data);
     } catch (error) {
       res.json(error.message);
     }

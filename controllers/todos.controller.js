@@ -5,7 +5,7 @@ module.exports.todosController = {
     const { category, text, completed, count } = req.body;
     try {
       const todo = await Todos.create({ category, text })
-      const data = await Todos.find().populate('category')
+      const data = await Todos.find().populate('category') //добавил для отображения категорий
       res.json(data);
     } catch (error) {
       res.json(error.message);

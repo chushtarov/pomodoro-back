@@ -9,4 +9,12 @@ module.exports.categoryController = {
     } catch (error) {
       res.json(error.message);
     }
-  }}
+  },
+  getCategory: async (req, res) => {
+    try {
+      const data = await Category.find();
+      res.json(data);
+    } catch (error) {
+      res.json(error.message);
+    }
+  },}

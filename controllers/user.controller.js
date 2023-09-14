@@ -8,13 +8,23 @@ module.exports.userController = {
         res.json(users)
     },
 
+    patchResult: async (req, res) => {
+    const result = await User.findByIdAndUpdate(req.user.id, {
+        $inc: {result: 1}
+    },{new:true})
+   res.json(result)
+    },
+
     registerUser: async (req, res) => {
-        const {login, password} = req.body;
+        const {login, password, result} = req.body;
         const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS))
         const user = await User.create({login, password: hash})
         res.json(user)
     },
-
+    findOneUser: async(req,res) => {
+        const data = await User.findById(req.user.id)
+        res.json(data)
+    },
     login: async (req, res) => {
         const {login, password} = req.body
 

@@ -10,5 +10,6 @@ router.delete('/todosDelete/:id', todosController.deleteTodos)
 router.patch('/todosPatchText/:id', todosController.patchTodosText)
 router.patch('/todosPatchCom/:id', todosController.patchTodosComp)
 router.patch('/todosPatchCat/:id', todosController.patchTodosCat)
+router.patch('/todosPatchCount/:id', todosController.patchTodosCount)
 
 module.exports = router;

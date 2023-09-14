@@ -22,7 +22,7 @@ module.exports.todosController = {
   deleteTodos: async (req, res) => {
     try {
       const todo = await Todos.findByIdAndRemove(req.params.id);
-      res.json("удалено");
+      res.json(todo);
     } catch (error) {
       res.json(error.message);
     }
@@ -43,7 +43,7 @@ module.exports.todosController = {
     try {
       const todo = await Todos.findByIdAndUpdate(req.params.id, {
         completed
-      });
+      },{new: true});
       res.json(todo);
     } catch (error) {
       res.json(error.message);
@@ -53,6 +53,16 @@ module.exports.todosController = {
     const { category } = req.body;
     try {
       const todo = await Todos.findByIdAndUpdate(req.params.id, { category }, { new: true });
+      // Важно использовать опцию { new: true }, чтобы получить обновленный документ
+      res.json(todo);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  patchTodosCount: async (req, res) => {
+    const { count } = req.body;
+    try {
+      const todo = await Todos.findByIdAndUpdate(req.params.id, { count }, { new: true });
       // Важно использовать опцию { new: true }, чтобы получить обновленный документ
       res.json(todo);
     } catch (error) {

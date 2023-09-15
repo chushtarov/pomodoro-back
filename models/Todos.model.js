@@ -14,6 +14,11 @@ const todosSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "User",
+ }
+
 });
 
 const Todos = mongoose.model("Todos", todosSchema);

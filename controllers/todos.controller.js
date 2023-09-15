@@ -4,21 +4,41 @@ module.exports.todosController = {
   postTodos: async (req, res) => {
     const { category, text, completed, count } = req.body;
     try {
-      const todo = await Todos.create({ category, text })
-      const data = await Todos.find().populate('category') //добавил для отображения категорий.
+      let todo;
+      if (req.user) {
+        todo = await Todos.create({ category, text, user: req.user.id });
+      } else {
+        todo = await Todos.create({ category, text, user: null });
+      }
+  
+      const data = await Todos.find({ user: req.user.id }).populate('category'); // Здесь мы фильтруем тудушки по user.id
       res.json(data);
+
     } catch (error) {
       res.json(error.message);
     }
   },
   getTodos: async (req, res) => {
     try {
-      const todo = await Todos.find().populate("category");
-      res.json(todo);
+      
+      if (req.user) {
+        // Если пользователь авторизован, получаем его тудушки
+        
+        let todos = await Todos.find({ user: req.user.id });
+        
+        return res.json(todos);
+      } else {
+        // Если пользователь не авторизован, получаем дефолтные тудушки
+        let todos = await Todos.find({ user: null });
+        return res.json(todos);
+      }
+      
+  
     } catch (error) {
-      res.json(error.message);
+      res.json( error.message);
     }
   },
+
   deleteTodos: async (req, res) => {
     try {
       const todo = await Todos.findByIdAndRemove(req.params.id);

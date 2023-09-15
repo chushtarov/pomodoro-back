@@ -4,8 +4,8 @@ const authorization = require('../middleware/auth.middleware')
 
 const router = Router()
 
-router.get('/todos', todosController.getTodos)
-router.post('/todos', todosController.postTodos)
+router.get('/todos', authorization, todosController.getTodos)
+router.post('/todos',  authorization, todosController.postTodos)
 router.delete('/todosDelete/:id', todosController.deleteTodos)
 router.patch('/todosPatchText/:id', todosController.patchTodosText)
 router.patch('/todosPatchCom/:id', todosController.patchTodosComp)
